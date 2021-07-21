@@ -1,7 +1,6 @@
 package com.github.marfikus.helloworld
 
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,12 +13,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val titleTextView = findViewById<TextView>(R.id.titleTextView)
+        val agreementTextView = findViewById<TextView>(R.id.agreementTextView)
         val string = "New text"
-        titleTextView.text = string
-//        titleTextView.setTextColor(Color.parseColor("#FFFF00"))
-        titleTextView.setColor(R.color.black)
-        titleTextView.visibility = View.INVISIBLE
+        agreementTextView.text = string
+//        agreementTextView.setTextColor(Color.parseColor("#FFFF00"))
+        agreementTextView.setColor(R.color.black)
+        agreementTextView.visibility = View.INVISIBLE
     }
 
     fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
