@@ -4,4 +4,6 @@
     <string name="agreement_fully_text">Нажимая на кнопку вы подтверждаете, что ознакомились с условиями использования и политикой конфиденциальности</string>
     <string name="confidential_info">условиями использования</string>
     <string name="privacy_policy">политикой конфиденциальности</string>
+    <string name="go_to_link_1">Перейти по ссылке 1</string>
+    <string name="go_to_link_2">Перейти по ссылке 2</string>
 </resources>
