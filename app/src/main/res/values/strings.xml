@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HelloWorld</string>
     <string name="hello">Hello World! This is my first project on the Android. dsfdsfsfsdfsd ddfd dfd s</string>
+    <string name="html" translatable="false"><![CDATA[<HTML><TITLE>Title</TITLE></HTML>]]></string>
 </resources>

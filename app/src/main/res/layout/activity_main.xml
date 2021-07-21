@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/hello"
+    android:text="@string/html"
     android:layout_gravity="center"
     android:maxLines="1"
     android:ellipsize="end"
