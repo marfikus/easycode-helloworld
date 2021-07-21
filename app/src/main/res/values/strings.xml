@@ -5,4 +5,6 @@
     <string name="agreement_fully_text">By pressing the next button you confirm the agreement and privacy policy</string>
     <string name="confidential_info">agreement</string>
     <string name="privacy_policy">privacy policy</string>
+    <string name="go_to_link_1">Go to link 1</string>
+    <string name="go_to_link_2">Go to link 2</string>
 </resources>
