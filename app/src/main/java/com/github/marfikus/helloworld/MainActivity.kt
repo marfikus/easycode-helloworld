@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorRes
 
@@ -18,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         titleTextView.text = string
 //        titleTextView.setTextColor(Color.parseColor("#FFFF00"))
         titleTextView.setColor(R.color.black)
+        titleTextView.visibility = View.INVISIBLE
     }
 
     fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">ПриветМир</string>
     <string name="hello">Привет Мир! Это мой первый проект на Андроиде… выва ы ыавыав ы ываываываыва </string>
+    <string name="agreement_fully_text">Нажимая на кнопку вы подтверждаете, что ознакомились с условиями использования и политикой конфиденциальности</string>
+    <string name="confidential_info">условиями использования</string>
+    <string name="privacy_policy">политикой конфиденциальности</string>
 </resources>
