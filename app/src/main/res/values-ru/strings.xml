@@ -6,4 +6,5 @@
     <string name="privacy_policy">политикой конфиденциальности</string>
     <string name="go_to_link_1">Перейти по ссылке 1</string>
     <string name="go_to_link_2">Перейти по ссылке 2</string>
+    <string name="camera_image_description">изображение камеры</string>
 </resources>

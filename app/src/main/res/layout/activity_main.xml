@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/agreementTextView"
+    android:id="@+id/iconImageView"
     android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:padding="@dimen/padding_small"
-    tools:text="@string/agreement_fully_text"
-    app:drawableTopCompat="@android:drawable/ic_dialog_alert"
-    app:drawableTint="@color/black"
-    android:drawablePadding="@dimen/padding_small"
-    android:background="@color/gray"/>
+    android:layout_height="wrap_content"
+    android:contentDescription="@string/camera_image_description"
+    android:src="@drawable/baseline_check_circle_outline_24"
+    app:tint="@color/red"/>

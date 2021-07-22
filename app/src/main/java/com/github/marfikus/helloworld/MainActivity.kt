@@ -11,6 +11,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import com.google.android.material.snackbar.Snackbar
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
+/*        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
 
         val fullText = getString(R.string.agreement_fully_text)
         val confidential = getString(R.string.confidential_info)
@@ -53,10 +54,11 @@ class MainActivity : AppCompatActivity() {
             text = spannableString
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
-        }
+        }*/
 
-//        agreementTextView.setTextColor(Color.parseColor("#FFFF00"))
-//        agreementTextView.setColor(R.color.black)
+        val imageView = findViewById<ImageView>(R.id.iconImageView)
+        imageView.setImageResource(R.drawable.flying_squirrel)
+
     }
 
     fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
