@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val imageView = findViewById<ImageView>(R.id.imageView)
 //        imageView.setImageResource(R.drawable.flying_squirrel)
 
-        val netImage = NetImage(URL, object : ImageCallback {
+/*        val netImage = NetImage(URL, object : ImageCallback {
             override fun success(bitmap: Bitmap) = runOnUiThread {
                 imageView.setImageBitmap(bitmap)
             }
@@ -41,7 +42,13 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(imageView, "failed", Snackbar.LENGTH_SHORT).show()
             }
         })
-        netImage.start()
+        netImage.start()*/
+
+        Picasso.get().load(URL).centerCrop()
+            .resize(720, 1280)
+            .placeholder(android.R.drawable.ic_media_pause)
+            .error(android.R.drawable.ic_dialog_alert)
+            .into(imageView)
 
 
 /*        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
