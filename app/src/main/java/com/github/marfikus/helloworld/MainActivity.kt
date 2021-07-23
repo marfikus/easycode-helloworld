@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             highlightColor = Color.TRANSPARENT
         }*/
 
-        val imageView = findViewById<ImageView>(R.id.iconImageView)
+        val imageView = findViewById<ImageView>(R.id.imageView)
         imageView.setImageResource(R.drawable.flying_squirrel)
 
     }
