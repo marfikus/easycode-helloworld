@@ -1,6 +1,7 @@
 package com.github.marfikus.helloworld
 
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -17,9 +18,29 @@ import androidx.annotation.ColorRes
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
+
+    private companion object {
+        const val URL = "https://zavistnik.com/wp-content/uploads/2020/03/Android-kursy-zastavka.jpg"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val imageView = findViewById<ImageView>(R.id.imageView)
+//        imageView.setImageResource(R.drawable.flying_squirrel)
+
+        val netImage = NetImage(URL, object : ImageCallback {
+            override fun success(bitmap: Bitmap) {
+                imageView.setImageBitmap(bitmap)
+            }
+
+            override fun failed() {
+                Snackbar.make(imageView, "failed", Snackbar.LENGTH_SHORT).show()
+            }
+        })
+        netImage.start()
+
 
 /*        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
 
@@ -55,9 +76,6 @@ class MainActivity : AppCompatActivity() {
             movementMethod = LinkMovementMethod.getInstance()
             highlightColor = Color.TRANSPARENT
         }*/
-
-        val imageView = findViewById<ImageView>(R.id.imageView)
-        imageView.setImageResource(R.drawable.flying_squirrel)
 
     }
 
