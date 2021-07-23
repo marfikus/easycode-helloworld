@@ -20,7 +20,9 @@ import com.google.android.material.snackbar.Snackbar
 class MainActivity : AppCompatActivity() {
 
     private companion object {
-        const val URL = "https://zavistnik.com/wp-content/uploads/2020/03/Android-kursy-zastavka.jpg"
+//        const val URL = "https://zavistnik.com/wp-content/uploads/2020/03/Android-kursy-zastavka.jpg"
+//        const val URL = "https://www.pexels.com/photo/50594/download/?search_query=8k%20wallpaper&tracking_id=bcohr3tutr5"
+        const val URL = "https://images4.alphacoders.com/978/978193.jpg"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +33,11 @@ class MainActivity : AppCompatActivity() {
 //        imageView.setImageResource(R.drawable.flying_squirrel)
 
         val netImage = NetImage(URL, object : ImageCallback {
-            override fun success(bitmap: Bitmap) {
+            override fun success(bitmap: Bitmap) = runOnUiThread {
                 imageView.setImageBitmap(bitmap)
             }
 
-            override fun failed() {
+            override fun failed() = runOnUiThread {
                 Snackbar.make(imageView, "failed", Snackbar.LENGTH_SHORT).show()
             }
         })
