@@ -44,11 +44,7 @@ class MainActivity : AppCompatActivity() {
         })
         netImage.start()*/
 
-        Picasso.get().load(URL).centerCrop()
-            .resize(720, 1280)
-            .placeholder(android.R.drawable.ic_media_pause)
-            .error(android.R.drawable.ic_dialog_alert)
-            .into(imageView)
+        imageView.load(URL)
 
 
 /*        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
@@ -86,6 +82,16 @@ class MainActivity : AppCompatActivity() {
             highlightColor = Color.TRANSPARENT
         }*/
 
+    }
+
+    fun ImageView.load(url: String) {
+        Picasso.get()
+            .load(URL)
+            .centerCrop()
+            .resize(720, 1280)
+            .placeholder(android.R.drawable.ic_media_pause)
+            .error(android.R.drawable.ic_dialog_alert)
+            .into(this)
     }
 
     fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
