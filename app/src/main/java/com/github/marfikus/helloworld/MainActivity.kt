@@ -79,9 +79,7 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
             if (EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()) {
-                val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(textInputEditText.windowToken, 0)
-
+                hideKeyboard(textInputEditText)
                 loginButton.isEnabled = false
                 Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
             } else {
@@ -90,6 +88,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun AppCompatActivity.hideKeyboard(view: View) {
+        val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private fun TextInputEditText.listenChanges(block: (text: String) -> Unit) {
