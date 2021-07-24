@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
@@ -85,13 +86,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ImageView.load(url: String) {
-        Picasso.get()
+/*        Picasso.get()
             .load(URL)
             .centerCrop()
             .resize(720, 1280)
             .placeholder(android.R.drawable.ic_media_pause)
             .error(android.R.drawable.ic_dialog_alert)
             .transform(CircleTransformation())
+            .into(this)*/
+
+        Glide.with(this)
+            .load(url)
             .into(this)
     }
 
