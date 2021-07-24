@@ -5,7 +5,7 @@ import com.squareup.picasso.Transformation
 import java.lang.RuntimeException
 import kotlin.math.min
 
-class CircleTransformation : Transformation {
+class PicassoCircleTransformation : Transformation {
 
     override fun transform(source: Bitmap?): Bitmap {
         if (source == null)

@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
@@ -88,16 +89,22 @@ class MainActivity : AppCompatActivity() {
     private fun ImageView.load(url: String) {
 /*        Picasso.get()
             .load(URL)
-            .centerCrop()
-            .resize(720, 1280)
+//            .centerCrop()
+//            .resize(720, 1280)
             .placeholder(android.R.drawable.ic_media_pause)
             .error(android.R.drawable.ic_dialog_alert)
-            .transform(CircleTransformation())
+            .transform(PicassoCircleTransformation())
             .into(this)*/
 
         Glide.with(this)
             .load(url)
+            .thumbnail(0.1f)
+//            .override(720, 1280)
+            .circleCrop()
+            .placeholder(android.R.drawable.ic_media_pause)
+            .error(android.R.drawable.ic_dialog_alert)
             .into(this)
+
     }
 
     private fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
