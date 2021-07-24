@@ -6,12 +6,10 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.TextPaint
+import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -24,28 +22,22 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
+private const val TAG = "TextWatcherTag"
+
 class MainActivity : AppCompatActivity() {
 
-    private companion object {
-//        const val URL = "https://zavistnik.com/wp-content/uploads/2020/03/Android-kursy-zastavka.jpg"
-        const val URL = "https://www.pexels.com/photo/50594/download/?search_query=8k%20wallpaper&tracking_id=bcohr3tutr5"
-//        const val URL = "https://images4.alphacoders.com/978/978193.jpg"
-    }
+    private lateinit var textInputLayout: TextInputLayout
+    private lateinit var textInputEditText: TextInputEditText
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
-        val textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
-        val textInputEditText = textInputLayout.editText as TextInputEditText
+        override fun afterTextChanged(s: Editable?) {
+            Log.d(TAG, "afterTextChanged $s")
 
-        textInputEditText.addTextChangedListener(object : SimpleTextWatcher() {
-
-            override fun afterTextChanged(s: Editable?) {
-                val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
-                textInputLayout.isErrorEnabled = !valid
-                val error = if (valid) "" else getString(R.string.invalid_email_message)
-                textInputLayout.error = error
+/*            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
+            textInputLayout.isErrorEnabled = !valid
+            val error = if (valid) "" else getString(R.string.invalid_email_message)
+            textInputLayout.error = error*/
 
 /*                if (valid)
                     Toast.makeText(
@@ -54,14 +46,31 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()*/
 
-                val input = s.toString()
-                if (input.endsWith("@g")) {
-                    val fullMail = "${input}mail.com"
-                    textInputEditText.setTextCorrectly(fullMail)
-                }
-
+            val input = s.toString()
+            if (input.endsWith("@g")) {
+                Log.d(TAG, "programmatically set text")
+//                val fullMail = "${input}mail.com"
+//                textInputEditText.setTextCorrectly(fullMail)
+                setText("${input}mail.com")
             }
-        })
+
+        }
+    }
+
+    private fun setText(text: String) {
+        textInputEditText.removeTextChangedListener(textWatcher)
+        textInputEditText.setTextCorrectly(text)
+        textInputEditText.addTextChangedListener(textWatcher)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
+        textInputEditText = textInputLayout.editText as TextInputEditText
+
+        textInputEditText.addTextChangedListener(textWatcher)
 
     }
 
