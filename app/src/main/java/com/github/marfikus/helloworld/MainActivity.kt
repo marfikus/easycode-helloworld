@@ -10,7 +10,9 @@ import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.Log
+import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -70,8 +72,27 @@ class MainActivity : AppCompatActivity() {
         textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
         textInputEditText = textInputLayout.editText as TextInputEditText
 
-        textInputEditText.addTextChangedListener(textWatcher)
+//        textInputEditText.addTextChangedListener(textWatcher)
+        textInputEditText.listenChanges { textInputLayout.isErrorEnabled = false }
 
+        val loginButton = findViewById<Button>(R.id.loginButton)
+        loginButton.setOnClickListener {
+            if (EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()) {
+                Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
+            } else {
+                textInputLayout.isErrorEnabled = true
+                textInputLayout.error = getString(R.string.invalid_email_message)
+            }
+        }
+
+    }
+
+    private fun TextInputEditText.listenChanges(block: (text: String) -> Unit) {
+        addTextChangedListener(object : SimpleTextWatcher() {
+            override fun afterTextChanged(s: Editable?) {
+                block.invoke(s.toString())
+            }
+        })
     }
 
     private fun TextInputEditText.setTextCorrectly(text: CharSequence) {
