@@ -12,6 +12,7 @@ import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -78,6 +79,10 @@ class MainActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
             if (EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()) {
+                val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(textInputEditText.windowToken, 0)
+
+                loginButton.isEnabled = false
                 Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
             } else {
                 textInputLayout.isErrorEnabled = true
