@@ -47,15 +47,27 @@ class MainActivity : AppCompatActivity() {
                 val error = if (valid) "" else getString(R.string.invalid_email_message)
                 textInputLayout.error = error
 
-                if (valid)
+/*                if (valid)
                     Toast.makeText(
                     this@MainActivity,
                     R.string.valid_email_message,
                     Toast.LENGTH_SHORT
-                ).show()
+                ).show()*/
+
+                val input = s.toString()
+                if (input.endsWith("@g")) {
+                    val fullMail = "${input}mail.com"
+                    textInputEditText.setTextCorrectly(fullMail)
+                }
+
             }
         })
 
+    }
+
+    private fun TextInputEditText.setTextCorrectly(text: CharSequence) {
+        setText(text)
+        setSelection(text.length)
     }
 
     private fun ImageView.load(url: String) {
