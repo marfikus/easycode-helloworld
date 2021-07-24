@@ -22,8 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
 //        const val URL = "https://zavistnik.com/wp-content/uploads/2020/03/Android-kursy-zastavka.jpg"
-//        const val URL = "https://www.pexels.com/photo/50594/download/?search_query=8k%20wallpaper&tracking_id=bcohr3tutr5"
-        const val URL = "https://images4.alphacoders.com/978/978193.jpg"
+        const val URL = "https://www.pexels.com/photo/50594/download/?search_query=8k%20wallpaper&tracking_id=bcohr3tutr5"
+//        const val URL = "https://images4.alphacoders.com/978/978193.jpg"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,17 +84,18 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun ImageView.load(url: String) {
+    private fun ImageView.load(url: String) {
         Picasso.get()
             .load(URL)
             .centerCrop()
             .resize(720, 1280)
             .placeholder(android.R.drawable.ic_media_pause)
             .error(android.R.drawable.ic_dialog_alert)
+            .transform(CircleTransformation())
             .into(this)
     }
 
-    fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
+    private fun TextView.setColor(@ColorRes colorResId: Int, theme: Resources.Theme? = null) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setTextColor(resources.getColor(colorResId, theme))
         } else {
