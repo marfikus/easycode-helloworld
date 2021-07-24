@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.TextPaint
@@ -14,10 +15,13 @@ import android.text.style.ClickableSpan
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
@@ -32,57 +36,25 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val imageView = findViewById<ImageView>(R.id.imageView)
-//        imageView.setImageResource(R.drawable.flying_squirrel)
+        val textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
+        val textInputEditText = textInputLayout.editText as TextInputEditText
 
-/*        val netImage = NetImage(URL, object : ImageCallback {
-            override fun success(bitmap: Bitmap) = runOnUiThread {
-                imageView.setImageBitmap(bitmap)
-            }
+        textInputEditText.addTextChangedListener(object : SimpleTextWatcher() {
 
-            override fun failed() = runOnUiThread {
-                Snackbar.make(imageView, "failed", Snackbar.LENGTH_SHORT).show()
+            override fun afterTextChanged(s: Editable?) {
+                val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
+                textInputLayout.isErrorEnabled = !valid
+                val error = if (valid) "" else getString(R.string.invalid_email_message)
+                textInputLayout.error = error
+
+                if (valid)
+                    Toast.makeText(
+                    this@MainActivity,
+                    R.string.valid_email_message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
-        netImage.start()*/
-
-        imageView.load(URL)
-
-
-/*        val agreementTextView: TextView = findViewById(R.id.agreementTextView)
-
-        val fullText = getString(R.string.agreement_fully_text)
-        val confidential = getString(R.string.confidential_info)
-        val policy = getString(R.string.privacy_policy)
-        val spannableString = SpannableString(fullText)
-
-        val confidentialClickable = MyClickableSpan {
-            Snackbar.make(it, getString(R.string.go_to_link_1), Snackbar.LENGTH_SHORT).show()
-        }
-
-        val policyClickable = MyClickableSpan {
-            Snackbar.make(it, getString(R.string.go_to_link_2), Snackbar.LENGTH_SHORT).show()
-        }
-
-        spannableString.setSpan(
-            confidentialClickable,
-            fullText.indexOf(confidential),
-            fullText.indexOf(confidential) + confidential.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        spannableString.setSpan(
-            policyClickable,
-            fullText.indexOf(policy),
-            fullText.indexOf(policy) + policy.length,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-
-        agreementTextView.run {
-            text = spannableString
-            movementMethod = LinkMovementMethod.getInstance()
-            highlightColor = Color.TRANSPARENT
-        }*/
 
     }
 

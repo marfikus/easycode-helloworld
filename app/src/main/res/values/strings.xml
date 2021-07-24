@@ -8,4 +8,7 @@
     <string name="go_to_link_1">Go to link 1</string>
     <string name="go_to_link_2">Go to link 2</string>
     <string name="image_description">image</string>
+    <string name="login">Login</string>
+    <string name="invalid_email_message">Invalid email!</string>
+    <string name="valid_email_message">Email is correct!</string>
 </resources>
