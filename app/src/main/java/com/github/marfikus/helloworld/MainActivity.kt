@@ -10,6 +10,7 @@ import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -105,6 +106,14 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = false
             Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
         }
+
+        loginButton.isEnabled = false
+
+        val termsCheckbox = findViewById<CheckBox>(R.id.termsCheckBox)
+        termsCheckbox.setOnCheckedChangeListener { _, isChecked ->
+            loginButton.isEnabled = isChecked
+        }
+
 
     }
 
