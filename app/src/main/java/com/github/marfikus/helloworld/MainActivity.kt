@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
 
                 BottomSheetDialog(this).run {
                     setContentView(R.layout.dialog)
+                    setCancelable(false)
                     show()
                 }
             }, 3000)
