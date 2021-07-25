@@ -1,14 +1,10 @@
 package com.github.marfikus.helloworld
 
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.*
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
@@ -16,21 +12,18 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import com.squareup.picasso.Picasso
 
 private const val TAG = "TextWatcherTag"
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textInputLayout: TextInputLayout
-    private lateinit var textInputEditText: TextInputEditText
+    private lateinit var loginInputLayout: TextInputLayout
+    private lateinit var loginInputEditText: TextInputEditText
 
     private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
@@ -38,9 +31,9 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "afterTextChanged $s")
 
 /*            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
-            textInputLayout.isErrorEnabled = !valid
+            loginInputLayout.isErrorEnabled = !valid
             val error = if (valid) "" else getString(R.string.invalid_email_message)
-            textInputLayout.error = error*/
+            loginInputLayout.error = error*/
 
 /*                if (valid)
                     Toast.makeText(
@@ -53,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             if (input.endsWith("@g")) {
                 Log.d(TAG, "programmatically set text")
 //                val fullMail = "${input}mail.com"
-//                textInputEditText.setTextCorrectly(fullMail)
+//                loginInputEditText.setTextCorrectly(fullMail)
                 setText("${input}mail.com")
             }
 
@@ -61,30 +54,30 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setText(text: String) {
-        textInputEditText.removeTextChangedListener(textWatcher)
-        textInputEditText.setTextCorrectly(text)
-        textInputEditText.addTextChangedListener(textWatcher)
+        loginInputEditText.removeTextChangedListener(textWatcher)
+        loginInputEditText.setTextCorrectly(text)
+        loginInputEditText.addTextChangedListener(textWatcher)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        textInputLayout = findViewById<TextInputLayout>(R.id.textInputLayout)
-        textInputEditText = textInputLayout.editText as TextInputEditText
+        loginInputLayout = findViewById<TextInputLayout>(R.id.loginInputLayout)
+        loginInputEditText = loginInputLayout.editText as TextInputEditText
 
-//        textInputEditText.addTextChangedListener(textWatcher)
-        textInputEditText.listenChanges { textInputLayout.isErrorEnabled = false }
+//        loginInputEditText.addTextChangedListener(textWatcher)
+        loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
-            if (EMAIL_ADDRESS.matcher(textInputEditText.text.toString()).matches()) {
-                hideKeyboard(textInputEditText)
+            if (EMAIL_ADDRESS.matcher(loginInputEditText.text.toString()).matches()) {
+                hideKeyboard(loginInputEditText)
                 loginButton.isEnabled = false
                 Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
             } else {
-                textInputLayout.isErrorEnabled = true
-                textInputLayout.error = getString(R.string.invalid_email_message)
+                loginInputLayout.isErrorEnabled = true
+                loginInputLayout.error = getString(R.string.invalid_email_message)
             }
         }
 
