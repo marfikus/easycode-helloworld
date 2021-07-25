@@ -91,9 +91,13 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (!passwordIsValid(passwordInputEditText.text.toString())) {
+            val passwordCheckResult = passwordIsValid(passwordInputEditText.text.toString())
+            val isValid = passwordCheckResult["isValid"].toBoolean()
+            if (!isValid) {
                 passwordInputLayout.isErrorEnabled = true
-                passwordInputLayout.error = getString(R.string.invalid_password_message)
+//                passwordInputLayout.error = getString(R.string.invalid_password_message)
+                // TODO: 25.07.21 правильнее бы брать строку из ресурсов на основании кода ошибки
+                passwordInputLayout.error = passwordCheckResult["error"]
                 return@setOnClickListener
             }
 
@@ -106,8 +110,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
 
-    private fun passwordIsValid(password: String): Boolean {
-        var result = false
+    private fun passwordIsValid(password: String): Map<String, String> {
+        var isValid = false
         var error = ""
 
         val chain = PasswordCheckerChain(
@@ -119,13 +123,16 @@ class MainActivity : AppCompatActivity() {
         )
 
         try {
-            result = chain.isValid(password)
+            isValid = chain.isValid(password)
         } catch (e: RuntimeException) {
             error = e.message.toString()
-            Log.d(ACTIVITY_TAG, error)
+//            Log.d(ACTIVITY_TAG, error)
         }
 
-        return result
+        return mapOf<String, String>(
+            "isValid" to isValid.toString(),
+            "error" to error
+        )
     }
 
     private fun AppCompatActivity.hideKeyboard(view: View) {
