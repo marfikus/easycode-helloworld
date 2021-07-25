@@ -25,6 +25,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loginInputLayout: TextInputLayout
     private lateinit var loginInputEditText: TextInputEditText
 
+    private lateinit var passwordInputLayout: TextInputLayout
+    private lateinit var passwordInputEditText: TextInputEditText
+
     private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
         override fun afterTextChanged(s: Editable?) {
@@ -63,25 +66,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        loginInputLayout = findViewById<TextInputLayout>(R.id.loginInputLayout)
+        loginInputLayout = findViewById(R.id.loginInputLayout)
         loginInputEditText = loginInputLayout.editText as TextInputEditText
+
+        passwordInputLayout = findViewById(R.id.passwordInputLayout)
+        passwordInputEditText = passwordInputLayout.editText as TextInputEditText
 
 //        loginInputEditText.addTextChangedListener(textWatcher)
         loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
-            if (EMAIL_ADDRESS.matcher(loginInputEditText.text.toString()).matches()) {
-                hideKeyboard(loginInputEditText)
-                loginButton.isEnabled = false
-                Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
-            } else {
+
+            if (!loginIsValid(loginInputEditText.text.toString())) {
                 loginInputLayout.isErrorEnabled = true
                 loginInputLayout.error = getString(R.string.invalid_email_message)
+                return@setOnClickListener
             }
+
+            if (!passwordIsValid(passwordInputEditText.text.toString())) {
+                passwordInputLayout.isErrorEnabled = true
+                passwordInputLayout.error = getString(R.string.invalid_password_message)
+                return@setOnClickListener
+            }
+
+            hideKeyboard(loginInputEditText)
+            loginButton.isEnabled = false
+            Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
         }
 
     }
+
+    private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
+    private fun passwordIsValid(password: String): Boolean = password.isNotEmpty()
 
     private fun AppCompatActivity.hideKeyboard(view: View) {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
