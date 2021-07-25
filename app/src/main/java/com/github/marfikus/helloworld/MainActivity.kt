@@ -9,10 +9,7 @@ import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerChain
@@ -83,6 +80,8 @@ class MainActivity : AppCompatActivity() {
         loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
         passwordInputEditText.listenChanges { passwordInputLayout.isErrorEnabled = false }
 
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
 
@@ -104,6 +103,7 @@ class MainActivity : AppCompatActivity() {
 
             hideKeyboard(loginInputEditText)
             loginButton.isEnabled = false
+            progressBar.visibility = View.VISIBLE
             Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
         }
 
