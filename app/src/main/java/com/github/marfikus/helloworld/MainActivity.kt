@@ -14,11 +14,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
+import com.github.marfikus.helloworld.password_checker.PasswordCheckerChain
+import com.github.marfikus.helloworld.password_checker.PasswordCheckerContainsOneDigit
+import com.github.marfikus.helloworld.password_checker.PasswordCheckerEmpty
+import com.github.marfikus.helloworld.password_checker.PasswordCheckerMinLength
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.lang.RuntimeException
 
-private const val TAG = "TextWatcherTag"
+private const val TEXT_WATCHER_TAG = "TextWatcherTag"
+private const val ACTIVITY_TAG = "ActivityTag"
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
         override fun afterTextChanged(s: Editable?) {
-            Log.d(TAG, "afterTextChanged $s")
+            Log.d(TEXT_WATCHER_TAG, "afterTextChanged $s")
 
 /*            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
             loginInputLayout.isErrorEnabled = !valid
@@ -47,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
             val input = s.toString()
             if (input.endsWith("@g")) {
-                Log.d(TAG, "programmatically set text")
+                Log.d(TEXT_WATCHER_TAG, "programmatically set text")
 //                val fullMail = "${input}mail.com"
 //                loginInputEditText.setTextCorrectly(fullMail)
                 setText("${input}mail.com")
@@ -74,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
 //        loginInputEditText.addTextChangedListener(textWatcher)
         loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
+        passwordInputEditText.listenChanges { passwordInputLayout.isErrorEnabled = false }
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
@@ -98,7 +105,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
-    private fun passwordIsValid(password: String): Boolean = password.isNotEmpty()
+
+    private fun passwordIsValid(password: String): Boolean {
+        var result = false
+        var error = ""
+
+        val chain = PasswordCheckerChain(
+            PasswordCheckerEmpty(),
+            PasswordCheckerChain(
+                PasswordCheckerMinLength(),
+                PasswordCheckerContainsOneDigit()
+            )
+        )
+
+        try {
+            result = chain.isValid(password)
+        } catch (e: RuntimeException) {
+            error = e.message.toString()
+            Log.d(ACTIVITY_TAG, error)
+        }
+
+        return result
+    }
 
     private fun AppCompatActivity.hideKeyboard(view: View) {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
