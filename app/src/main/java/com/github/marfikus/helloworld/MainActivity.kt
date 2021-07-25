@@ -18,6 +18,7 @@ import com.github.marfikus.helloworld.password_checker.PasswordCheckerChain
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerContainsOneDigit
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerEmpty
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerMinLength
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -113,6 +114,11 @@ class MainActivity : AppCompatActivity() {
             Handler(Looper.myLooper()!!).postDelayed({
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
+
+                BottomSheetDialog(this).run {
+                    setContentView(R.layout.dialog)
+                    show()
+                }
             }, 3000)
         }
 
