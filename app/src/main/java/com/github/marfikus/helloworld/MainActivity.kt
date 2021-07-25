@@ -4,6 +4,8 @@ import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.*
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
@@ -107,6 +109,11 @@ class MainActivity : AppCompatActivity() {
             contentLayout.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
+
+            Handler(Looper.myLooper()!!).postDelayed({
+                contentLayout.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            }, 3000)
         }
 
         loginButton.isEnabled = false
