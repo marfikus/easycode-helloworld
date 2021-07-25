@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity() {
         loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
         passwordInputEditText.listenChanges { passwordInputLayout.isErrorEnabled = false }
 
-        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val contentLayout = findViewById<View>(R.id.contentLayout)
+        val progressBar = findViewById<View>(R.id.progressBar)
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
@@ -102,7 +103,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             hideKeyboard(loginInputEditText)
-            loginButton.isEnabled = false
+//            loginButton.isEnabled = false
+            contentLayout.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
         }
