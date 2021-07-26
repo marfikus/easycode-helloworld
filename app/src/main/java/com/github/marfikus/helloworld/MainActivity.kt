@@ -1,5 +1,6 @@
 package com.github.marfikus.helloworld
 
+import android.app.Dialog
 import android.content.res.Resources
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.ColorRes
@@ -93,24 +95,12 @@ class MainActivity : AppCompatActivity() {
             contentLayout.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
             state = PROGRESS
-//            Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
 
             Handler(Looper.myLooper()!!).postDelayed({
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
                 state = FAILED
-
-                val dialog = BottomSheetDialog(this)
-                val dialogView =
-                    LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
-                dialog.setCancelable(false)
-                dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
-                    state = INITIAL
-                    dialog.dismiss()
-                }
-                dialog.setContentView(dialogView)
-                dialog.show()
-
+                showDialog(contentLayout)
             }, 3000)
         }
 
@@ -119,6 +109,14 @@ class MainActivity : AppCompatActivity() {
         val termsCheckbox = findViewById<CheckBox>(R.id.termsCheckBox)
         termsCheckbox.setOnCheckedChangeListener { _, isChecked ->
             loginButton.isEnabled = isChecked
+        }
+
+        when (state) {
+            FAILED -> showDialog(contentLayout)
+            SUCCESS -> {
+                Snackbar.make(contentLayout, "Success", Snackbar.LENGTH_SHORT).show()
+                state = INITIAL
+            }
         }
 
     }
@@ -144,6 +142,19 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         Log.d(ACTIVITY_TAG, "onDestroy")
         super.onDestroy()
+    }
+
+    private fun showDialog(viewGroup: ViewGroup) {
+        val dialog = Dialog(this)
+        val view =
+            LayoutInflater.from(this).inflate(R.layout.dialog, viewGroup, false)
+        dialog.setCancelable(false)
+        view.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+            state = INITIAL
+            dialog.dismiss()
+        }
+        dialog.setContentView(view)
+        dialog.show()
     }
 
     private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
