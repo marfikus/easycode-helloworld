@@ -15,4 +15,5 @@
     <string name="invalid_password_message">Invalid password!</string>
     <string name="attention">Attention!</string>
     <string name="service_unavailable">Service is unavailable</string>
+    <string name="close">close dialog button</string>
 </resources>

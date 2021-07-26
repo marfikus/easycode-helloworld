@@ -9,6 +9,7 @@ import android.os.Looper
 import android.text.*
 import android.util.Log
 import android.util.Patterns.EMAIL_ADDRESS
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -83,8 +84,8 @@ class MainActivity : AppCompatActivity() {
         loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
         passwordInputEditText.listenChanges { passwordInputLayout.isErrorEnabled = false }
 
-        val contentLayout = findViewById<View>(R.id.contentLayout)
-        val progressBar = findViewById<View>(R.id.progressBar)
+        val contentLayout = findViewById<LinearLayout>(R.id.contentLayout)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
 
         val loginButton = findViewById<Button>(R.id.loginButton)
         loginButton.setOnClickListener {
@@ -115,11 +116,15 @@ class MainActivity : AppCompatActivity() {
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
 
-                BottomSheetDialog(this).run {
-                    setContentView(R.layout.dialog)
-                    setCancelable(false)
-                    show()
+                val dialog = BottomSheetDialog(this)
+                val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
+                dialog.setCancelable(false)
+                dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+                    dialog.dismiss()
                 }
+                dialog.setContentView(dialogView)
+                dialog.show()
+
             }, 3000)
         }
 
