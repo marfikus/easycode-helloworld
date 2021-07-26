@@ -28,8 +28,18 @@ import java.lang.RuntimeException
 
 private const val TEXT_WATCHER_TAG = "TextWatcherTag"
 private const val ACTIVITY_TAG = "ActivityTag"
+private const val KEY_SCREEN_STATE = "screenState"
 
 class MainActivity : AppCompatActivity() {
+
+    private companion object {
+        const val INITIAL = 0
+        const val PROGRESS = 1
+        const val SUCCESS = 2
+        const val FAILED = 3
+    }
+
+    private var state = INITIAL
 
     private lateinit var loginInputLayout: TextInputLayout
     private lateinit var loginInputEditText: TextInputEditText
@@ -56,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         Log.d(ACTIVITY_TAG, "onCreate ${savedInstanceState == null}")
+        savedInstanceState?.let {
+            state = it.getInt(KEY_SCREEN_STATE)
+        }
+        Log.d(ACTIVITY_TAG, "state is $state")
 
         loginInputLayout = findViewById(R.id.loginInputLayout)
         loginInputEditText = loginInputLayout.editText as TextInputEditText
@@ -78,16 +92,20 @@ class MainActivity : AppCompatActivity() {
 //            loginButton.isEnabled = false
             contentLayout.visibility = View.GONE
             progressBar.visibility = View.VISIBLE
-            Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
+            state = PROGRESS
+//            Snackbar.make(loginButton, "Go to postLogin", Snackbar.LENGTH_SHORT).show()
 
             Handler(Looper.myLooper()!!).postDelayed({
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
+                state = FAILED
 
                 val dialog = BottomSheetDialog(this)
-                val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
+                val dialogView =
+                    LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
                 dialog.setCancelable(false)
                 dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+                    state = INITIAL
                     dialog.dismiss()
                 }
                 dialog.setContentView(dialogView)
@@ -115,6 +133,12 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         Log.d(ACTIVITY_TAG, "onPause")
         loginInputEditText.removeTextChangedListener(textWatcher)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d(ACTIVITY_TAG, "onSaveInstanceState")
+        outState.putInt(KEY_SCREEN_STATE, state)
     }
 
     override fun onDestroy() {
