@@ -126,7 +126,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.setContentView(dialogView)
                 dialog.show()*/
 
-                val dialogBuilder = AlertDialog.Builder(this)
+/*                val dialogBuilder = AlertDialog.Builder(this)
                 dialogBuilder.setCancelable(false)
                 val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
                 dialogBuilder.setView(dialogView)
@@ -134,7 +134,9 @@ class MainActivity : AppCompatActivity() {
                 dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
                     dialog.dismiss()
                 }
-                dialog.show()
+                dialog.show()*/
+
+                MyDialogFragment().show(supportFragmentManager, "alertDialog")
 
             }, 3000)
         }
