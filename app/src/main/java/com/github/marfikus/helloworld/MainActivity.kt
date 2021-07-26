@@ -40,28 +40,8 @@ class MainActivity : AppCompatActivity() {
     private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
         override fun afterTextChanged(s: Editable?) {
-//            Log.d(TEXT_WATCHER_TAG, "afterTextChanged $s")
-
-/*            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
-            loginInputLayout.isErrorEnabled = !valid
-            val error = if (valid) "" else getString(R.string.invalid_email_message)
-            loginInputLayout.error = error*/
-
-/*                if (valid)
-                    Toast.makeText(
-                    this@MainActivity,
-                    R.string.valid_email_message,
-                    Toast.LENGTH_SHORT
-                ).show()*/
-
-            val input = s.toString()
-            if (input.endsWith("@g")) {
-//                Log.d(TEXT_WATCHER_TAG, "programmatically set text")
-//                val fullMail = "${input}mail.com"
-//                loginInputEditText.setTextCorrectly(fullMail)
-                setText("${input}mail.com")
-            }
-
+            Log.d(ACTIVITY_TAG, "changed ${s.toString()}")
+            loginInputLayout.isErrorEnabled = false
         }
     }
 
@@ -81,10 +61,6 @@ class MainActivity : AppCompatActivity() {
         loginInputEditText = loginInputLayout.editText as TextInputEditText
 
 //        loginInputEditText.addTextChangedListener(textWatcher)
-        loginInputEditText.listenChanges {
-            Log.d(ACTIVITY_TAG, "changed $it")
-            loginInputLayout.isErrorEnabled = false
-        }
 
         val contentLayout = findViewById<LinearLayout>(R.id.contentLayout)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
@@ -127,6 +103,23 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = isChecked
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(ACTIVITY_TAG, "onResume")
+        loginInputEditText.addTextChangedListener(textWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(ACTIVITY_TAG, "onPause")
+        loginInputEditText.removeTextChangedListener(textWatcher)
+    }
+
+    override fun onDestroy() {
+        Log.d(ACTIVITY_TAG, "onDestroy")
+        super.onDestroy()
     }
 
     private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
