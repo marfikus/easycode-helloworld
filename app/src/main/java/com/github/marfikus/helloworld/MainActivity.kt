@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private val textWatcher: TextWatcher = object : SimpleTextWatcher() {
 
         override fun afterTextChanged(s: Editable?) {
-            Log.d(TEXT_WATCHER_TAG, "afterTextChanged $s")
+//            Log.d(TEXT_WATCHER_TAG, "afterTextChanged $s")
 
 /*            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()
             loginInputLayout.isErrorEnabled = !valid
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
             val input = s.toString()
             if (input.endsWith("@g")) {
-                Log.d(TEXT_WATCHER_TAG, "programmatically set text")
+//                Log.d(TEXT_WATCHER_TAG, "programmatically set text")
 //                val fullMail = "${input}mail.com"
 //                loginInputEditText.setTextCorrectly(fullMail)
                 setText("${input}mail.com")
@@ -75,15 +75,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Log.d(ACTIVITY_TAG, "onCreate ${savedInstanceState == null}")
+
         loginInputLayout = findViewById(R.id.loginInputLayout)
         loginInputEditText = loginInputLayout.editText as TextInputEditText
 
-        passwordInputLayout = findViewById(R.id.passwordInputLayout)
-        passwordInputEditText = passwordInputLayout.editText as TextInputEditText
-
 //        loginInputEditText.addTextChangedListener(textWatcher)
-        loginInputEditText.listenChanges { loginInputLayout.isErrorEnabled = false }
-        passwordInputEditText.listenChanges { passwordInputLayout.isErrorEnabled = false }
+        loginInputEditText.listenChanges {
+            Log.d(ACTIVITY_TAG, "changed $it")
+            loginInputLayout.isErrorEnabled = false
+        }
 
         val contentLayout = findViewById<LinearLayout>(R.id.contentLayout)
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
@@ -97,16 +98,6 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val passwordCheckResult = passwordIsValid(passwordInputEditText.text.toString())
-            val isValid = passwordCheckResult["isValid"].toBoolean()
-            if (!isValid) {
-                passwordInputLayout.isErrorEnabled = true
-//                passwordInputLayout.error = getString(R.string.invalid_password_message)
-                // TODO: 25.07.21 правильнее бы брать строку из ресурсов на основании кода ошибки
-                passwordInputLayout.error = passwordCheckResult["error"]
-                return@setOnClickListener
-            }
-
             hideKeyboard(loginInputEditText)
 //            loginButton.isEnabled = false
             contentLayout.visibility = View.GONE
@@ -117,26 +108,14 @@ class MainActivity : AppCompatActivity() {
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
 
-/*                val dialog = BottomSheetDialog(this)
+                val dialog = BottomSheetDialog(this)
                 val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
                 dialog.setCancelable(false)
                 dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
                     dialog.dismiss()
                 }
                 dialog.setContentView(dialogView)
-                dialog.show()*/
-
-/*                val dialogBuilder = AlertDialog.Builder(this)
-                dialogBuilder.setCancelable(false)
-                val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
-                dialogBuilder.setView(dialogView)
-                val dialog = dialogBuilder.create()
-                dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
-                    dialog.dismiss()
-                }
-                dialog.show()*/
-
-                MyDialogFragment().show(supportFragmentManager, "alertDialog")
+                dialog.show()
 
             }, 3000)
         }
@@ -148,35 +127,9 @@ class MainActivity : AppCompatActivity() {
             loginButton.isEnabled = isChecked
         }
 
-
     }
 
     private fun loginIsValid(login: String): Boolean = EMAIL_ADDRESS.matcher(login).matches()
-
-    private fun passwordIsValid(password: String): Map<String, String> {
-        var isValid = false
-        var error = ""
-
-        val chain = PasswordCheckerChain(
-            PasswordCheckerEmpty(),
-            PasswordCheckerChain(
-                PasswordCheckerMinLength(),
-                PasswordCheckerContainsOneDigit()
-            )
-        )
-
-        try {
-            isValid = chain.isValid(password)
-        } catch (e: RuntimeException) {
-            error = e.message.toString()
-//            Log.d(ACTIVITY_TAG, error)
-        }
-
-        return mapOf<String, String>(
-            "isValid" to isValid.toString(),
-            "error" to error
-        )
-    }
 
     private fun AppCompatActivity.hideKeyboard(view: View) {
         val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
