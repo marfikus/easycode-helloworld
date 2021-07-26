@@ -2,14 +2,16 @@ package com.github.marfikus.helloworld
 
 class ViewModel(private val textObservable: TextObservable) {
 
-    private val model = Model(object : TextCallback {
-        override fun updateText(str: String) {
-            textObservable.postValue(str)
-        }
-    })
+    init {
+        Model.init(object : TextCallback {
+            override fun updateText(str: String) {
+                textObservable.postValue(str)
+            }
+        })
+    }
 
     fun init() {
-        model.start()
+        Model.start()
     }
 }
 
