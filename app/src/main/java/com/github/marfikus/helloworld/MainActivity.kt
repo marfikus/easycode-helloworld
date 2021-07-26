@@ -14,6 +14,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.ColorRes
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerChain
 import com.github.marfikus.helloworld.password_checker.PasswordCheckerContainsOneDigit
@@ -116,13 +117,23 @@ class MainActivity : AppCompatActivity() {
                 contentLayout.visibility = View.VISIBLE
                 progressBar.visibility = View.GONE
 
-                val dialog = BottomSheetDialog(this)
+/*                val dialog = BottomSheetDialog(this)
                 val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
                 dialog.setCancelable(false)
                 dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
                     dialog.dismiss()
                 }
                 dialog.setContentView(dialogView)
+                dialog.show()*/
+
+                val dialogBuilder = AlertDialog.Builder(this)
+                dialogBuilder.setCancelable(false)
+                val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog, contentLayout, false)
+                dialogBuilder.setView(dialogView)
+                val dialog = dialogBuilder.create()
+                dialogView.findViewById<View>(R.id.closeDialogButton).setOnClickListener {
+                    dialog.dismiss()
+                }
                 dialog.show()
 
             }, 3000)
