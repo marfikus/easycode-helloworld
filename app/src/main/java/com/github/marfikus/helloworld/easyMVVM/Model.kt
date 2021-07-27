@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.easyMVVM
 
 import android.util.Log
 import java.util.*

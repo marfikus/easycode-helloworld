@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.easyMVVM
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

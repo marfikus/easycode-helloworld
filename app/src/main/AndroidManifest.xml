@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloWorld">
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".helloworld.MainActivity"></activity>
 
         <activity
-            android:name=".MainActivity2"
+            android:name=".easyMVVM.MainActivity2"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

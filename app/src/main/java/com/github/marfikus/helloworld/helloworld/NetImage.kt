@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.helloworld
 
 import android.graphics.BitmapFactory
 import java.lang.Exception

@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.triangle
 
 class Triangle(private val sideA: Int,
                private val sideB: Int,

@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.helloworld
 
 import android.app.Dialog
 import android.content.res.Resources
@@ -16,17 +16,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.ColorRes
-import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
-import com.github.marfikus.helloworld.password_checker.PasswordCheckerChain
-import com.github.marfikus.helloworld.password_checker.PasswordCheckerContainsOneDigit
-import com.github.marfikus.helloworld.password_checker.PasswordCheckerEmpty
-import com.github.marfikus.helloworld.password_checker.PasswordCheckerMinLength
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.github.marfikus.helloworld.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import java.lang.RuntimeException
 
 private const val TEXT_WATCHER_TAG = "TextWatcherTag"
 private const val ACTIVITY_TAG = "ActivityTag"

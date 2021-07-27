@@ -1,4 +1,4 @@
-package com.github.marfikus.helloworld.password_checker;
+package com.github.marfikus.helloworld.passwordChecker;
 
 public class PasswordCheckerMinLength extends PasswordChecker {
 

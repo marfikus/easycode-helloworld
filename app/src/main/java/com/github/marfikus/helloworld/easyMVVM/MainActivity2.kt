@@ -1,8 +1,12 @@
-package com.github.marfikus.helloworld
+package com.github.marfikus.helloworld.easyMVVM
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.github.marfikus.helloworld.MyApplication
+import com.github.marfikus.helloworld.R
+import com.github.marfikus.helloworld.passwordChecker.PasswordChecker
+import com.github.marfikus.helloworld.passwordChecker.PasswordCheckerChain
 
 class MainActivity2 : AppCompatActivity() {
 
