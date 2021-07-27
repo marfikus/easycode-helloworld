@@ -1,9 +1,8 @@
 package com.github.marfikus.helloworld.doer
 
-class Doer {
+class Doer(private val logger: Logging) {
 
     private var mainThingDone = false
-    private val logger = LoggingTool()
 
     fun doMain() {
         if (!mainThingDone) {
