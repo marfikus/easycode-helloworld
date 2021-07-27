@@ -18,17 +18,17 @@ class Model(private val dataSource: DataSource) {
 
     fun start(textCallback: TextCallback) {
         callback = textCallback
-        Log.d(TAG, "start: count is $count")
+//        Log.d(TAG, "start: count is $count")
         if (count < 0)
             count = dataSource.getInt(COUNTER_KEY)
-        Log.d(TAG, "started with count $count")
+//        Log.d(TAG, "started with count $count")
 
         timer = Timer()
         timer?.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
     fun stop() {
-        Log.d(TAG, "stop with count $count")
+//        Log.d(TAG, "stop with count $count")
         dataSource.saveInt(COUNTER_KEY, count)
         timer?.cancel()
         timer = null
@@ -36,6 +36,6 @@ class Model(private val dataSource: DataSource) {
 
     companion object {
         private const val COUNTER_KEY = "counterKey"
-        private const val TAG = "uniqueCounterTag"
+//        private const val TAG = "uniqueCounterTag"
     }
 }
