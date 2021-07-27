@@ -6,7 +6,13 @@ import java.util.*
 class Model(private val dataSource: DataSource) {
 
     private var timer: Timer? = null
-    private var timerTask: TimerTask? = null
+    private val timerTask
+        get() = object : TimerTask() {
+            override fun run() {
+                count++
+                callback?.updateText(count.toString())
+            }
+        }
     private var callback: TextCallback? = null
     private var count = -1
 
@@ -18,14 +24,6 @@ class Model(private val dataSource: DataSource) {
         Log.d(TAG, "started with count $count")
 
         timer = Timer()
-
-        timerTask = object : TimerTask() {
-            override fun run() {
-                count++
-                callback?.updateText(count.toString())
-            }
-        }
-
         timer?.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
@@ -34,7 +32,6 @@ class Model(private val dataSource: DataSource) {
         dataSource.saveInt(COUNTER_KEY, count)
         timer?.cancel()
         timer = null
-        timerTask = null
     }
 
     companion object {
