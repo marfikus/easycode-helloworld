@@ -1,15 +1,28 @@
 package com.github.marfikus.helloworld.doer
 
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
 class DoerTest {
 
+    private lateinit var logger: TestLogger
+    private lateinit var doer: Doer
+
+    @Before
+    fun setUp() {
+        logger = TestLogger()
+        doer = Doer(logger)
+    }
+
+    @After
+    fun clear() {
+        logger.logCallsCount = 0
+    }
+
     @Test
     fun test_one_time_case() {
-        val logger = TestLogger()
-        val doer = Doer(logger)
-
         doer.doMain()
         val actual = logger.logCallsCount
         val expected = 1
@@ -18,9 +31,6 @@ class DoerTest {
 
     @Test
     fun test_two_time_case() {
-        val logger = TestLogger()
-        val doer = Doer(logger)
-
         doer.doMain()
         doer.doMain()
         val actual = logger.logCallsCount
