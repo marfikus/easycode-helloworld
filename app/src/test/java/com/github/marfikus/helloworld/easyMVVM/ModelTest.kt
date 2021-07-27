@@ -37,6 +37,31 @@ class ModelTest {
         val savedCountExpected = 2
         assertEquals(savedCountExpected, savedCountActual)
     }
+
+    @Test
+    fun test_start_after_stop() {
+        val testDataSource = TestDataSource()
+        val testTimeTicker = TestTimeTicker()
+        val model = Model(testDataSource, testTimeTicker)
+        val callback = TestCallback()
+        testDataSource.saveInt("", 10)
+        model.start(callback)
+        testTimeTicker.tick(2)
+        val actual = callback.text
+        val expected = "12"
+        assertEquals(expected, actual)
+
+        model.stop()
+        val savedCountActual = testDataSource.getInt("")
+        val savedCountExpected = 12
+        assertEquals(savedCountExpected, savedCountActual)
+
+        model.start(callback)
+        testTimeTicker.tick(3)
+        val actualText = callback.text
+        val expectedText = "15"
+        assertEquals(expectedText, actualText)
+    }
 }
 
 private class TestTimeTicker : TimeTicker {
