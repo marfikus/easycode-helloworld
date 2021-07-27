@@ -12,10 +12,27 @@ class ModelTest {
         val callback = TestCallback()
         testDataSource.saveInt("", 5)
         model.start(callback)
-        Thread.sleep(1)
+        Thread.sleep(10)
         val actual = callback.text
         val expected = "6"
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun test_stop_after_2_seconds() {
+        val testDataSource = TestDataSource()
+        val model = Model(testDataSource)
+        val callback = TestCallback()
+        testDataSource.saveInt("", 0)
+        model.start(callback)
+        Thread.sleep(2010)
+        model.stop()
+        val actual = callback.text
+        val expected = "3"
+        assertEquals(expected, actual)
+        val savedCountActual = testDataSource.getInt("")
+        val savedCountExpected = 3
+        assertEquals(savedCountExpected, savedCountActual)
     }
 }
 
