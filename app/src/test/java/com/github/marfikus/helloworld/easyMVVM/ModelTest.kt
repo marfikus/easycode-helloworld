@@ -62,6 +62,51 @@ class ModelTest {
         val expectedText = "15"
         assertEquals(expectedText, actualText)
     }
+
+    @Test
+    fun test_start_after_dead_app() {
+        // первый запуск приложения
+        var testDataSource: TestDataSource? = TestDataSource()
+        var testTimeTicker: TestTimeTicker? = TestTimeTicker()
+        var model: Model? = Model(testDataSource!!, testTimeTicker!!)
+        var callback: TestCallback? = TestCallback()
+        testDataSource.saveInt("", 5)
+        model?.start(callback!!)
+        testTimeTicker.tick(3)
+        val actual = callback?.text
+        val expected = "8"
+        assertEquals(expected, actual)
+
+        // остановка (проверка сохранения)
+        model?.stop()
+        val savedCountActual = testDataSource.getInt("")
+        val savedCountExpected = 8
+        assertEquals(savedCountExpected, savedCountActual)
+
+        // имитация завершения приложения
+        testDataSource = null
+        testTimeTicker = null
+        model = null
+        callback = null
+
+        // новый запуск приложения
+        val newTestDataSource = TestDataSource()
+        val newTestTimeTicker = TestTimeTicker()
+        val newModel = Model(newTestDataSource, newTestTimeTicker)
+        val newCallback = TestCallback()
+        newTestDataSource.saveInt("", savedCountActual)
+        newModel.start(newCallback)
+        newTestTimeTicker.tick(10)
+        val newActual = newCallback.text
+        val newExpected = "18"
+        assertEquals(newExpected, newActual)
+
+        // ещё раз остановка
+        newModel.stop()
+        val newSavedCountActual = newTestDataSource.getInt("")
+        val newSavedCountExpected = 18
+        assertEquals(newSavedCountExpected, newSavedCountActual)
+    }
 }
 
 private class TestTimeTicker : TimeTicker {
