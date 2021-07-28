@@ -1,34 +1,46 @@
 package com.github.marfikus.helloworld.easyMVVM
 
+import org.junit.After
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 
 class ModelTest {
 
+    private lateinit var testDataSource: TestDataSource
+    private lateinit var testTimeTicker: TestTimeTicker
+    private lateinit var model: Model
+    private lateinit var testCallback: TestCallback
+
+    @Before
+    fun setUp() {
+        testDataSource = TestDataSource()
+        testTimeTicker = TestTimeTicker()
+        model = Model(testDataSource, testTimeTicker)
+        testCallback = TestCallback()
+    }
+
+    @After
+    fun clear() {
+
+    }
+
     @Test
     fun test_start_with_saved_value() {
-        val testDataSource = TestDataSource()
-        val testTimeTicker = TestTimeTicker()
-        val model = Model(testDataSource, testTimeTicker)
-        val callback = TestCallback()
         testDataSource.saveInt("", 5)
-        model.start(callback)
+        model.start(testCallback)
         testTimeTicker.tick(1)
-        val actual = callback.text
+        val actual = testCallback.text
         val expected = "6"
         assertEquals(expected, actual)
     }
 
     @Test
     fun test_stop_after_2_seconds() {
-        val testDataSource = TestDataSource()
-        val testTimeTicker = TestTimeTicker()
-        val model = Model(testDataSource, testTimeTicker)
-        val callback = TestCallback()
         testDataSource.saveInt("", 0)
-        model.start(callback)
+        model.start(testCallback)
         testTimeTicker.tick(2)
-        val actual = callback.text
+        val actual = testCallback.text
         val expected = "2"
         assertEquals(expected, actual)
 
@@ -40,14 +52,10 @@ class ModelTest {
 
     @Test
     fun test_start_after_stop() {
-        val testDataSource = TestDataSource()
-        val testTimeTicker = TestTimeTicker()
-        val model = Model(testDataSource, testTimeTicker)
-        val callback = TestCallback()
         testDataSource.saveInt("", 10)
-        model.start(callback)
+        model.start(testCallback)
         testTimeTicker.tick(2)
-        val actual = callback.text
+        val actual = testCallback.text
         val expected = "12"
         assertEquals(expected, actual)
 
@@ -56,9 +64,9 @@ class ModelTest {
         val savedCountExpected = 12
         assertEquals(savedCountExpected, savedCountActual)
 
-        model.start(callback)
+        model.start(testCallback)
         testTimeTicker.tick(3)
-        val actualText = callback.text
+        val actualText = testCallback.text
         val expectedText = "15"
         assertEquals(expectedText, actualText)
     }
@@ -66,28 +74,28 @@ class ModelTest {
     @Test
     fun test_start_after_dead_app() {
         // первый запуск приложения
-        var testDataSource: TestDataSource? = TestDataSource()
-        var testTimeTicker: TestTimeTicker? = TestTimeTicker()
-        var model: Model? = Model(testDataSource!!, testTimeTicker!!)
-        var callback: TestCallback? = TestCallback()
-        testDataSource.saveInt("", 5)
-        model?.start(callback!!)
-        testTimeTicker.tick(3)
-        val actual = callback?.text
+        var testDataSourceNullable: TestDataSource? = TestDataSource()
+        var testTimeTickerNullable: TestTimeTicker? = TestTimeTicker()
+        var modelNullable: Model? = Model(testDataSourceNullable!!, testTimeTickerNullable!!)
+        var testCallbackNullable: TestCallback? = TestCallback()
+        testDataSourceNullable.saveInt("", 5)
+        modelNullable!!.start(testCallbackNullable!!)
+        testTimeTickerNullable.tick(3)
+        val actual = testCallbackNullable.text
         val expected = "8"
         assertEquals(expected, actual)
 
         // остановка (проверка сохранения)
-        model?.stop()
-        val savedCountActual = testDataSource.getInt("")
+        modelNullable.stop()
+        val savedCountActual = testDataSourceNullable.getInt("")
         val savedCountExpected = 8
         assertEquals(savedCountExpected, savedCountActual)
 
         // имитация завершения приложения
-        testDataSource = null
-        testTimeTicker = null
-        model = null
-        callback = null
+        testDataSourceNullable = null
+        testTimeTickerNullable = null
+        modelNullable = null
+        testCallbackNullable = null
 
         // новый запуск приложения
         val newTestDataSource = TestDataSource()
